@@ -132,10 +132,7 @@ function addProduct(){
 		},	{
 			name: "stockQuantity",
 			message: "Stock of Quantity: "
-		}, {
-			name: "overheadCosts"
-			message: "Overhead Cost of Department: "
-		}	
+		}
 	]).then(function(response){
 		var query = "INSERT INTO products (product_name, department_name, price, stock_quantity)"
 					+ "VALUES ('" + response.productName + "', '" + response.departmentName + "', '" 

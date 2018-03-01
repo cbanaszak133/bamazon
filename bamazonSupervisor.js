@@ -45,7 +45,7 @@ function viewSales(){
 
 	var query = "SELECT department_id, departments.department_name, over_head_costs, sum(product_sales) AS product_sales, sum(product_sales) - over_head_costs AS total_profit"
 				+ " FROM products"
-				+ " INNER JOIN departments ON departments.department_name = products.department_name"
+				+ " RIGHT JOIN departments ON departments.department_name = products.department_name"
 				+ " GROUP BY department_id, departments.department_name";
 	
 	connection.query(query, function(err, res){
