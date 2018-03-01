@@ -88,7 +88,7 @@ function lowInventory(){
               res[i].stock_quantity
           );
 		}
-
+		menu();
 	});
 }
 
@@ -132,10 +132,22 @@ function addProduct(){
 		},	{
 			name: "stockQuantity",
 			message: "Stock of Quantity: "
-		}
+		}, {
+			name: "overheadCosts"
+			message: "Overhead Cost of Department: "
+		}	
 	]).then(function(response){
-		connection.query("INSERT INTO products (product_name, department_name, price, stock_quantity) VALUES ("iPhone 7", "Technology", 450.00, 3)")
-	})	
+		var query = "INSERT INTO products (product_name, department_name, price, stock_quantity)"
+					+ "VALUES ('" + response.productName + "', '" + response.departmentName + "', '" 
+					+ response.price + "', '" + response.stockQuantity + "')";
+
+		connection.query(query, function(err, res){
+			if (err) throw err;
+			console.log(res.affectedRows + " record added");
+
+			display();
+		});
+	});	
 
 
 }

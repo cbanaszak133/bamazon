@@ -33,7 +33,9 @@ function display(){
               " || Price: " +
               res[i].price +
               " || Stock Quantity: " +
-              res[i].stock_quantity
+              res[i].stock_quantity +
+              " || Product Sales: " +
+              res[i].product_sales
           );
         }
 		requestItem();
@@ -65,6 +67,11 @@ function requestItem(){
 	    			if (err) throw err;
 	    			console.log(res.affectedRows + " record(s) updated");
   				});
+
+  				connection.query("UPDATE products SET product_sales = ? WHERE item_id = ?", [res[0].price*response.quantity, itemID], function(err,res){
+  					if (err) throw err;
+  					console.log(res.affectedRows + "prices added");
+  				})
 
   				console.log("Cost of transaction: " + (res[0].price*response.quantity));
 			}
