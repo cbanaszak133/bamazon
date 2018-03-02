@@ -53,40 +53,42 @@ function menu(){
 }
 
 function display(){
+  var majorArray = [];
+  var minorArray = [];
 	connection.query("SELECT * FROM products", function(err, res){
-		for (var i = 0; i < res.length; i++) {
-          console.table([
-          	{
-          		ItemID: res[i].item_id,
-          		Name: res[i].product_name,
-          		Department: res[i].department_name,
-          		Price: res[i].price,
-          		Quantity: res[i].stock_quantity,
-          		Sales: res[i].product_sales
-          	}
-          ]);
+    for (var i = 0; i < res.length; i++) {
+        minorArray = [];
+
+        minorArray = [
+          [res[i].item_id],[res[i].product_name],[res[i].department_name],[res[i].price],[res[i].stock_quantity],[res[i].product_sales]
+        ];
+        
+        majorArray.push(minorArray);  
+
         }
-		menu();
+        console.table(['Item ID', 'Name', 'Department', 'Price', 'Quantity', 'Sales'], majorArray);
+		    menu();
 	});
 }
 
 function lowInventory(){
+  var majorArray = [];
+  var minorArray = [];
 	connection.query("SELECT * FROM products WHERE stock_quantity < 5", function(err, res){
 		console.log("Items with low inventory: ");
-		for (var i = 0; i < res.length; i++) {
-          console.table([
-          	{
-          		ItemID: res[i].item_id,
-          		Name: res[i].product_name,
-          		Department: res[i].department_name,
-          		Price: res[i].price,
-          		Quantity: res[i].stock_quantity,
-          		Sales: res[i].product_sales
-          	}
-          ]);
+    for (var i = 0; i < res.length; i++) {
+        minorArray = [];
+
+        minorArray = [
+          [res[i].item_id],[res[i].product_name],[res[i].department_name],[res[i].price],[res[i].stock_quantity],[res[i].product_sales]
+        ];
+        
+        majorArray.push(minorArray);  
+
         }
-		menu();
-	});
+        console.table(['Item ID', 'Name', 'Department', 'Price', 'Quantity', 'Sales'], majorArray);
+        menu();
+  });
 }
 
 function addInventory(){

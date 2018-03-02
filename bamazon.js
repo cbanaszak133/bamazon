@@ -21,19 +21,20 @@ connection.connect(function(err) {
 });
 
 function display(){
+	var majorArray = [];
+	 var minorArray = [];
 	connection.query("SELECT * FROM products", function(err, res){
 		for (var i = 0; i < res.length; i++) {
-          console.table([
-          	{
-          		ItemID: res[i].item_id,
-          		Name: res[i].product_name,
-          		Department: res[i].department_name,
-          		Price: res[i].price,
-          		Quantity: res[i].stock_quantity,
-          		Sales: res[i].product_sales
-          	}
-          ]);
+		  minorArray = [];
+
+		  minorArray = [
+		  	[res[i].item_id],[res[i].product_name],[res[i].department_name],[res[i].price],[res[i].stock_quantity],[res[i].product_sales]
+		  ];
+		  
+		  majorArray.push(minorArray);	
+
         }
+        console.table(['Item ID', 'Name', 'Department', 'Price', 'Quantity', 'Sales'], majorArray);
 		requestItem();
 	});
 }
@@ -64,7 +65,10 @@ function requestItem(){
 	    			console.log(res.affectedRows + " record(s) updated");
   				});
 
-  				connection.query("UPDATE products SET product_sales = ? WHERE item_id = ?", [res[0].price*response.quantity, itemID], function(err,res){
+  				//Making sure it will add the sale to the product sales instead of replacing it
+  				var prevCost = Number(res[0].product_sales);
+
+  				connection.query("UPDATE products SET product_sales = ? WHERE item_id = ?", [(res[0].price*response.quantity) + prevCost, itemID], function(err,res){
   					if (err) throw err;
   					console.log(res.affectedRows + " prices added");
   				})

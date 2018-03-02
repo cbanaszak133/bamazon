@@ -43,6 +43,8 @@ function menu(){
 }
 
 function viewSales(){
+  var majorArray = [];
+  var minorArray = [];
 
 	var query = "SELECT department_id, departments.department_name, over_head_costs, sum(product_sales) AS product_sales, sum(product_sales) - over_head_costs AS total_profit"
 				+ " FROM products"
@@ -51,17 +53,26 @@ function viewSales(){
 	
 	connection.query(query, function(err, res){
 		for (var i = 0; i < res.length; i++) {
-           console.table([
-          	{
-          		DeparmentID: res[i].department_id,
-          		Deparment_Name: res[i].department_name,
-          		Over_Head_Costs: res[i].over_head_costs,
-          		Product_Sales: res[i].product_sales,
-          		Total_Profit: res[i].total_profit,
-          	}
-          ]);
+          //  console.table([
+          // 	{
+          // 		DeparmentID: res[i].department_id,
+          // 		Deparment_Name: res[i].department_name,
+          // 		Over_Head_Costs: res[i].over_head_costs,
+          // 		Product_Sales: res[i].product_sales,
+          // 		Total_Profit: res[i].total_profit,
+          // 	}
+          // ]);
+
+          minorArray = [];
+
+          minorArray = [
+            [res[i].department_id],[res[i].department_name],[res[i].over_head_costs],[res[i].product_sales],[res[i].total_profit]
+          ];
+          
+          majorArray.push(minorArray);  
         }
-		menu();
+        console.table(['Deparment ID', 'Department Name', 'Over Head Costs', 'Product Sales', 'Total Profit'], majorArray);
+		    menu();
 	});
 }
 
@@ -76,10 +87,10 @@ function createDepartment(){
 		}
 	]).then(function(response){
 			var query2 = "INSERT INTO departments (department_name, over_head_costs)"
- 				     + "VALUES ('" + response.departmentName + "', '" + response.overHead + "')";
+ 				     + "VALUES ('" + response.departmentName + "', '" + response.overHead + "', 0 , 0)";
 
  		connection.query(query2, function(err, res){
- 			console.log(res.affectedRows + "departments added");
+ 			console.log(res.affectedRows + " departments added");
  			menu();
  		})
 
