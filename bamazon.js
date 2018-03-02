@@ -1,7 +1,7 @@
 
 var mysql = require("mysql");
 var inquirer = require("inquirer");
-
+const cTable = require('console.table');
 
 var connection = mysql.createConnection({
   host: "localhost",
@@ -23,20 +23,16 @@ connection.connect(function(err) {
 function display(){
 	connection.query("SELECT * FROM products", function(err, res){
 		for (var i = 0; i < res.length; i++) {
-          console.log(
-            "Item ID:  " +
-              res[i].item_id +
-              " || Product Name: " +
-              res[i].product_name +
-              " || Deparment Name: " +
-              res[i].department_name +
-              " || Price: " +
-              res[i].price +
-              " || Stock Quantity: " +
-              res[i].stock_quantity +
-              " || Product Sales: " +
-              res[i].product_sales
-          );
+          console.table([
+          	{
+          		ItemID: res[i].item_id,
+          		Name: res[i].product_name,
+          		Department: res[i].department_name,
+          		Price: res[i].price,
+          		Quantity: res[i].stock_quantity,
+          		Sales: res[i].product_sales
+          	}
+          ]);
         }
 		requestItem();
 	});
@@ -70,7 +66,7 @@ function requestItem(){
 
   				connection.query("UPDATE products SET product_sales = ? WHERE item_id = ?", [res[0].price*response.quantity, itemID], function(err,res){
   					if (err) throw err;
-  					console.log(res.affectedRows + "prices added");
+  					console.log(res.affectedRows + " prices added");
   				})
 
   				console.log("Cost of transaction: " + (res[0].price*response.quantity));
