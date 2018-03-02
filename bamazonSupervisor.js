@@ -53,15 +53,6 @@ function viewSales(){
 	
 	connection.query(query, function(err, res){
 		for (var i = 0; i < res.length; i++) {
-          //  console.table([
-          // 	{
-          // 		DeparmentID: res[i].department_id,
-          // 		Deparment_Name: res[i].department_name,
-          // 		Over_Head_Costs: res[i].over_head_costs,
-          // 		Product_Sales: res[i].product_sales,
-          // 		Total_Profit: res[i].total_profit,
-          // 	}
-          // ]);
 
           minorArray = [];
 
